@@ -19,7 +19,12 @@ public class RealNumber{
   *Special case: if one is exactly zero, the other must be exactly zero.
   */
   public boolean equals(RealNumber other){
-    return true;
+    if(getValue() == 0 || other.getValue() == 0) {
+      return getValue() == 0 && other.getValue() == 0;
+    } else {
+      double diff = Math.abs(getValue() - other.getValue());
+      return diff < getValue()*0.00001;
+    }
   }
 
   /*
@@ -29,7 +34,7 @@ public class RealNumber{
   public RealNumber add(RealNumber other){
      //other can be ANY RealNumber, including a RationalNumber
      //or other subclasses of RealNumber (that aren't written yet)
-     return null;
+     return new RealNumber(getValue() + other.getValue());
   }
 
   /*
@@ -37,7 +42,7 @@ public class RealNumber{
   *the product of this and the other
   */
   public RealNumber multiply(RealNumber other){
-        return null;
+      return new RealNumber(getValue() * other.getValue());
   }
 
   /*
@@ -45,7 +50,7 @@ public class RealNumber{
   *this divided by the other
   */
   public RealNumber divide(RealNumber other){
-        return null;
+      return new RealNumber(getValue() / other.getValue());
   }
 
   /*
@@ -53,6 +58,6 @@ public class RealNumber{
   *this minus the other
   */
   public RealNumber subtract(RealNumber other){
-    return null;
+      return new RealNumber(getValue() - other.getValue());
   }
 }
