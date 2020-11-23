@@ -10,12 +10,21 @@ public class RationalNumber extends RealNumber
   */
   public RationalNumber(int nume, int deno){
     super(0.0);//this value is ignored! 
-    numerator = nume;
-    denominator = deno;
+    if(deno == 0 ){
+      numerator = 0;
+      denominator = 1;
+    } else if(deno < 0) {
+      numerator = -nume;
+      denominator = -deno;
+    } else {
+      numerator = nume;
+      denominator = deno;
+    }
+    reduce();
   }
 
   public double getValue(){
-    return numerator/denominator;
+    return (double)numerator/denominator;
   }
 
   /**
@@ -41,7 +50,7 @@ public class RationalNumber extends RealNumber
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
   public boolean equals(RationalNumber other){
-    return numerator == other.getNumerator() && denominator == other.getDenominator()
+    return numerator == other.getNumerator() && denominator == other.getDenominator();
   }
 
 
@@ -60,20 +69,23 @@ public class RationalNumber extends RealNumber
   private static int gcd(int a, int b){
     /*use euclids method or a better one
     http://sites.math.rutgers.edu/~greenfie/gs2004/euclid.html */
-    int small, large;
-    if(a < b) {
-      small = a;
-      large = b;
-    } else {
-      small = b;
-      large = a;
+    int p = Math.abs(a);
+    int q = Math.abs(b);
+    if(p < q) {
+      int hold = q;
+      q = p;
+      p = hold;
     }
-    int r = large % small;
-    if(r == 0) {
-      return small;
-    } else {
-      gcd(b,r);
+    if(q == 0) {
+      return p;
     }
+    if (p % q == 0) {
+      return q;
+    }
+    if(gcd(q, p % q) > 0 || p % q == 0) {
+      return gcd(q, p % q);
+    }
+    return -1;
   }
 
   /**
@@ -82,8 +94,10 @@ public class RationalNumber extends RealNumber
   *reduced after construction.
   */
   private void reduce(){
-    numerator /= gcd(numerator, denominator);
-    denominator /= gcd(numerator, denominator);
+    int divisor = gcd(getNumerator(), getDenominator());
+    System.out.println("Divisor is " + divisor);
+    numerator /= divisor;
+    denominator /= divisor;
   }
   /******************Operations Return a new RationalNumber!!!!****************/
   /**
