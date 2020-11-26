@@ -95,7 +95,6 @@ public class RationalNumber extends RealNumber
   */
   private void reduce(){
     int divisor = gcd(getNumerator(), getDenominator());
-    System.out.println("Divisor is " + divisor);
     numerator /= divisor;
     denominator /= divisor;
   }
